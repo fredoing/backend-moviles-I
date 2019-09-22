@@ -14,13 +14,36 @@ const PORT = process.env.PORT || 5000
 
 var pool = pg.Pool(config);
 
-app.get('/', function(req, res, next) {
+app.get('/', function(req, res) {
+  res.status(200).send("connected to database");
+});
+
+app.get('/admin/:user/:password', function(req, res, next) {
+  var user = req.params.user;
+  var password = req.params.password;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+    client.query('select * from autenticaadmin($1, $2)', [user, password], function(err, result){
+      done();
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      }
+      res.status(200).send(result.rows);
+    });
+  });
+});
+
+app.get('/rests', function(req, res, next) {
   pool.connect(function(err, client, done) {
     if (err) {
       console.log("not able to connect" + err);
       res.status(400).send(err);
     }
-    client.query('SELECT * FROM restaurante', function(err, result) {
+    client.query('SELECT * FROM getrestaurantes()', function(err, result) {
       done();
       if (err) {
         console.log(err);
