@@ -3,7 +3,7 @@ var pg = require("pg");
 var app = express();
 
 var config = {
-  //host:'ec2-184-73-169-163.compute-1.amazonaws.com',
+  host:'ec2-184-73-169-163.compute-1.amazonaws.com',
   user:'uyjxrwtnjpkphb',
   password:'91922efb0954a45b457ca8a0ad1f50d9a8030a22e965891877c4f54cb8e0c47a',
   database:'d5p2ul5ueis3kv',
