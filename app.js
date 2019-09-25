@@ -120,13 +120,80 @@ app.get('/newFaceUser/:nom/:email/:id', function(req, res, next) {
   });
 });
 
-app.get('/rests', function(req, res, next) {
+app.get('/rests/:dist/:lat/:lon', function(req, res, next) {
+  var distance = req.params.dist;
+  var latitude = req.params.lat;
+  var longitude = req.params.lon;
   pool.connect(function(err, client, done) {
     if (err) {
       console.log("not able to connect" + err);
       res.status(400).send(err);
     }
-    client.query('SELECT * FROM getrestaurantes()', function(err, result) {
+    client.query('SELECT * FROM getrestaurantes($1,$2,$3)', [distance, latitude, longitude], function(err, result) {
+      done();
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      }
+      res.status(200).send(result.rows);
+    });
+  });
+});
+
+app.get('/newrest/:nombre/:lat/:lon/:contact/:horario/:precio', function(req, res, next) {
+  var name = req.params.nombre;
+  var latitude = req.params.lat;
+  var longitude = req.params.lon;
+  var contact = req.params.contact;
+  var horario = req.params.horario;
+  var precio = req.params.precio;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log("not able to connect" + err);
+      res.status(400).send(err);
+    }
+    client.query('CALL nuevorestaurante($1,$2,$3,$4,$5,$6)', [name, latitude, longitude, contact, horario, precio],
+    function(err, result) {
+      done();
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      }
+      res.status(200).send(result.rows);
+    });
+  });
+});
+
+app.get('/comment/:user/:rest/:comm', function(req, res, next) {
+  var user = req.params.user;
+  var rest = req.params.rest;
+  var comm = req.params.comm;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log("not able to connect" + err);
+      res.status(400).send(err);
+    }
+    client.query('CALL comentario($1,$2,$3)', [user, rest, comm], function(err, result) {
+      done();
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      }
+      res.status(200).send(result.rows);
+    });
+  });
+});
+
+app.get('/califica/:user/:rest/:cal', function(req, res, next) {
+  var user = req.params.user;
+  var rest = req.params.rest;
+  var cal = req.params.cal;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log("not able to connect" + err);
+      res.status(400).send(err);
+    }
+    client.query('CALL calificacion($1,$2,$3)', [user, rest, cal], function(err, result) {
       done();
       if (err) {
         console.log(err);
