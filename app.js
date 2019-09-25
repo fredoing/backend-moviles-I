@@ -18,6 +18,7 @@ app.get('/', function(req, res) {
   res.status(200).send("connected to database");
 });
 
+//autentica un usuario administrador
 app.get('/admin/:user/:password', function(req, res, next) {
   var user = req.params.user;
   var password = req.params.password;
@@ -27,6 +28,88 @@ app.get('/admin/:user/:password', function(req, res, next) {
       res.status(400).send(err);
     }
     client.query('select * from autenticaadmin($1, $2)', [user, password], function(err, result){
+      done();
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      }
+      res.status(200).send(result.rows);
+    });
+  });
+});
+
+//autentica un usuario normal
+app.get('/user/:email/:password', function(req, res, next) {
+  var email = req.params.email;
+  var password = req.params.password;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+    client.query('select * from autenticausuarioemail($1, $2)', [email, password], function(err, result){
+      done();
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      }
+      res.status(200).send(result.rows);
+    });
+  });
+});
+
+//autentica un usuario de facebook
+app.get('/facebookuser/:email/:id', function(req, res, next) {
+  var user = req.params.user;
+  var id = req.params.id;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+    client.query('select * from autenticausuarioface($1, $2)', [email, id], function(err, result){
+      done();
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      }
+      res.status(200).send(result.rows);
+    });
+  });
+});
+
+//add a new simple user name, email, password are required
+app.get('/newUser/:nom/:email/:password', function(req, res, next) {
+  var nombre = req.params.nom;
+  var email = req.param.email;
+  var password = req.params.password;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+    client.query('call nuevousuarioemail($1,$2,$3);', [nombre, email, password], function(err, result){
+      done();
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      }
+      res.status(200).send(result.rows);
+    });
+  });
+});
+
+//add new facebook user name, email and facebook id are required
+app.get('/newFaceUser/:nom/:email/:id', function(req, res, next) {
+  var nombre = req.params.nom;
+  var email = req.param.email;
+  var id = req.params.id;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+    client.query('call nuevousuarioface($1,$2,$3);', [nombre, email, id], function(err, result){
       done();
       if (err) {
         console.log(err);
