@@ -47,7 +47,7 @@ app.get('/user/:email/:password', function(req, res, next) {
       console.log(err);
       res.status(400).send(err);
     }
-    client.query('select * from autenticausuarioemail($1, $2)', [email, password], function(err, result){
+    client.query('select * from autenticausuarioemail($1, $2) as passed', [email, password], function(err, result){
       done();
       if (err) {
         console.log(err);
@@ -60,14 +60,14 @@ app.get('/user/:email/:password', function(req, res, next) {
 
 //autentica un usuario de facebook
 app.get('/facebookuser/:email/:id', function(req, res, next) {
-  var user = req.params.user;
+  var email = req.params.email;
   var id = req.params.id;
   pool.connect(function(err, client, done) {
     if (err) {
       console.log(err);
       res.status(400).send(err);
     }
-    client.query('select * from autenticausuarioface($1, $2)', [email, id], function(err, result){
+    client.query('select * from autenticausuarioface($1, $2) as passed', [email, id], function(err, result){
       done();
       if (err) {
         console.log(err);
@@ -81,7 +81,7 @@ app.get('/facebookuser/:email/:id', function(req, res, next) {
 //add a new simple user name, email, password are required
 app.get('/newUser/:nom/:email/:password', function(req, res, next) {
   var nombre = req.params.nom;
-  var email = req.param.email;
+  var email = req.params.email;
   var password = req.params.password;
   pool.connect(function(err, client, done) {
     if (err) {
@@ -102,7 +102,7 @@ app.get('/newUser/:nom/:email/:password', function(req, res, next) {
 //add new facebook user name, email and facebook id are required
 app.get('/newFaceUser/:nom/:email/:id', function(req, res, next) {
   var nombre = req.params.nom;
-  var email = req.param.email;
+  var email = req.params.email;
   var id = req.params.id;
   pool.connect(function(err, client, done) {
     if (err) {
