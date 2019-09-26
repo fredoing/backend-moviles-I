@@ -31,9 +31,12 @@ app.get('/admin/:user/:password', function(req, res, next) {
       done();
       if (err) {
         console.log(err);
-        res.status(400).send(err);
+        var error = [{"error":"some error"}]
+        res.status(200).send(error);
       }
-      res.status(200).send(result.rows);
+      if (result!=null) {
+        res.status(200).send(result.rows);
+      }
     });
   });
 });
@@ -51,9 +54,12 @@ app.get('/user/:email/:password', function(req, res, next) {
       done();
       if (err) {
         console.log(err);
-        res.status(400).send(err);
+        var error = [{"error":"some error"}]
+        res.status(200).send(error);
       }
-      res.status(200).send(result.rows);
+      if (result!=null) {
+        res.status(200).send(result.rows);
+      }
     });
   });
 });
@@ -71,9 +77,12 @@ app.get('/facebookuser/:email/:id', function(req, res, next) {
       done();
       if (err) {
         console.log(err);
-        res.status(400).send(err);
+        var error = [{"error":"some error"}]
+        res.status(200).send(error);
       }
-      res.status(200).send(result.rows);
+      if (result!=null) {
+        res.status(200).send(result.rows);
+      }
     });
   });
 });
@@ -92,9 +101,12 @@ app.get('/newUser/:nom/:email/:password', function(req, res, next) {
       done();
       if (err) {
         console.log(err);
-        res.status(400).send(err);
+        var error = [{"error":"some error"}]
+        res.status(200).send(error);
       }
-      res.status(200).send(result.rows);
+      if (result!=null) {
+        res.status(200).send(result.rows);
+      }
     });
   });
 });
@@ -113,9 +125,12 @@ app.get('/newFaceUser/:nom/:email/:id', function(req, res, next) {
       done();
       if (err) {
         console.log(err);
-        res.status(400).send(err);
+        var error = [{"error":"some error"}]
+        res.status(200).send(error);
       }
-      res.status(200).send(result.rows);
+      if (result!=null) {
+        res.status(200).send(result.rows);
+      }
     });
   });
 });
@@ -133,9 +148,12 @@ app.get('/rests/:dist/:lat/:lon', function(req, res, next) {
       done();
       if (err) {
         console.log(err);
-        res.status(400).send(err);
+        var error = [{"error":"some error"}]
+        res.status(200).send(error);
       }
-      res.status(200).send(result.rows);
+      if (result!=null) {
+        res.status(200).send(result.rows);
+      }
     });
   });
 });
@@ -157,9 +175,12 @@ app.get('/newrest/:nombre/:lat/:lon/:contact/:horario/:precio', function(req, re
       done();
       if (err) {
         console.log(err);
-        res.status(400).send(err);
+        var error = [{"error":"some error"}]
+        res.status(200).send(error);
       }
-      res.status(200).send(result.rows);
+      if (result!=null) {
+        res.status(200).send(result.rows);
+      }
     });
   });
 });
@@ -177,9 +198,12 @@ app.get('/comment/:rest/:user/:comm', function(req, res, next) {
       done();
       if (err) {
         console.log(err);
-        res.status(400).send(err);
+        var error = [{"error":"some error"}]
+        res.status(200).send(error);
       }
-      res.status(200).send(result.rows);
+      if (result!=null) {
+        res.status(200).send(result.rows);
+      }
     });
   });
 });
@@ -197,9 +221,12 @@ app.get('/comments/:rest/', function(req, res, next) {
       done();
       if (err) {
         console.log(err);
-        res.status(400).send(err);
+        var error = [{"error":"some error"}]
+        res.status(200).send(error);
       }
-      res.status(200).send(result.rows);
+      if (result!=null) {
+        res.status(200).send(result.rows);
+      }
     });
   });
 });
@@ -217,9 +244,12 @@ app.get('/califica/:rest/:user/:cal', function(req, res, next) {
       done();
       if (err) {
         console.log(err);
-        res.status(400).send(err);
+        var error = [{"error":"some error"}]
+        res.status(200).send(error);
       }
-      res.status(200).send(result.rows);
+      if (result!=null) {
+        res.status(200).send(result.rows);
+      }
     });
   });
 });
