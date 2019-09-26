@@ -184,6 +184,26 @@ app.get('/comment/:rest/:user/:comm', function(req, res, next) {
   });
 });
 
+app.get('/comments/:rest/', function(req, res, next) {
+  var user = req.params.user;
+  var rest = req.params.rest;
+  var comm = req.params.comm;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log("not able to connect" + err);
+      res.status(400).send(err);
+    }
+    client.query('SELECT * from getcomments($1)', [rest], function(err, result) {
+      done();
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      }
+      res.status(200).send(result.rows);
+    });
+  });
+});
+
 app.get('/califica/:rest/:user/:cal', function(req, res, next) {
   var user = req.params.user;
   var rest = req.params.rest;
