@@ -164,7 +164,7 @@ app.get('/newrest/:nombre/:lat/:lon/:contact/:horario/:precio', function(req, re
   });
 });
 
-app.get('/comment/:user/:rest/:comm', function(req, res, next) {
+app.get('/comment/:rest/:user/:comm', function(req, res, next) {
   var user = req.params.user;
   var rest = req.params.rest;
   var comm = req.params.comm;
@@ -173,7 +173,7 @@ app.get('/comment/:user/:rest/:comm', function(req, res, next) {
       console.log("not able to connect" + err);
       res.status(400).send(err);
     }
-    client.query('CALL comentario($1,$2,$3)', [user, rest, comm], function(err, result) {
+    client.query('CALL comentario($1,$2,$3)', [rest, user, comm], function(err, result) {
       done();
       if (err) {
         console.log(err);
@@ -184,7 +184,7 @@ app.get('/comment/:user/:rest/:comm', function(req, res, next) {
   });
 });
 
-app.get('/califica/:user/:rest/:cal', function(req, res, next) {
+app.get('/califica/:rest/:user/:cal', function(req, res, next) {
   var user = req.params.user;
   var rest = req.params.rest;
   var cal = req.params.cal;
@@ -193,7 +193,7 @@ app.get('/califica/:user/:rest/:cal', function(req, res, next) {
       console.log("not able to connect" + err);
       res.status(400).send(err);
     }
-    client.query('CALL calificacion($1,$2,$3)', [user, rest, cal], function(err, result) {
+    client.query('CALL calificacion($1,$2,$3)', [rest, user, cal], function(err, result) {
       done();
       if (err) {
         console.log(err);
