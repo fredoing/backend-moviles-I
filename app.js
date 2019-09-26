@@ -254,6 +254,27 @@ app.get('/califica/:rest/:user/:cal', function(req, res, next) {
   });
 });
 
+app.get('/userid/:correo', function(req, res, next) {
+  var correo = req.params.correo;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log("not able to connect" + err);
+      res.status(400).send(err);
+    }
+    client.query('SELECT * FROM getuserid($1)', [correo], function(err, result) {
+      done();
+      if (err) {
+        console.log(err);
+        var error = [{"error":"some error"}]
+        res.status(200).send(error);
+      }
+      if (result!=null) {
+        res.status(200).send(result.rows);
+      }
+    });
+  });
+});
+
 var server = app.listen(PORT, function () {
     console.log("app running on port.", server.address().port);
 });
