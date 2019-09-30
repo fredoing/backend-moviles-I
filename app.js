@@ -276,13 +276,33 @@ app.get('/userid/:correo', function(req, res, next) {
 });
 
 app.get('/admin/usuarios', function(req, res, next) {
-  var correo = req.params.correo;
   pool.connect(function(err, client, done) {
     if (err) {
       console.log("not able to connect" + err);
       res.status(400).send(err);
     }
     client.query('SELECT * FROM getusuarios()', [], function(err, result) {
+      done();
+      if (err) {
+        console.log(err);
+        var error = [{"error":"some error"}]
+        res.status(200).send(error);
+      }
+      if (result!=null) {
+        res.status(200).send(result.rows);
+      }
+    });
+  });
+});
+
+app.get('/rest/:id', function(req, res, next) {
+  var id = req.params.id;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log("not able to connect" + err);
+      res.status(400).send(err);
+    }
+    client.query('SELECT * FROM getRestaurante($1)', [id], function(err, result) {
       done();
       if (err) {
         console.log(err);
