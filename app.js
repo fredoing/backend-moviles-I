@@ -185,6 +185,34 @@ app.get('/newrest/:nombre/:lat/:lon/:contact/:horario/:precio', function(req, re
   });
 });
 
+app.get('/modifyrest/:id/:nombre/:lat/:lon/:contact/:horario/:precio', function(req, res, next) {
+  var idrest = req.parms.id;
+  var name = req.params.nombre;
+  var latitude = req.params.lat;
+  var longitude = req.params.lon;
+  var contact = req.params.contact;
+  var horario = req.params.horario;
+  var precio = req.params.precio;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log("not able to connect" + err);
+      res.status(400).send(err);
+    }
+    client.query('CALL updaterestaurante($1,$2,$3,$4,$5,$6,$7)', [id, name, latitude, longitude, contact, horario, precio],
+    function(err, result) {
+      done();
+      if (err) {
+        console.log(err);
+        var error = [{"error":"some error"}]
+        res.status(200).send(error);
+      }
+      if (result!=null) {
+        res.status(200).send(result.rows);
+      }
+    });
+  });
+});
+
 app.get('/comment/:rest/:user/:comm', function(req, res, next) {
   var user = req.params.user;
   var rest = req.params.rest;
