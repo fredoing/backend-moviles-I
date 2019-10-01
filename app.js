@@ -198,7 +198,7 @@ app.get('/modifyrest/:id/:nombre/:lat/:lon/:contact/:horario/:precio', function(
       console.log("not able to connect" + err);
       res.status(400).send(err);
     }
-    client.query('CALL updaterestaurante($1,$2,$3,$4,$5,$6,$7)', [id, name, latitude, longitude, contact, horario, precio],
+    client.query('CALL updaterestaurante($1,$2,$3,$4,$5,$6,$7)', [idrest, name, latitude, longitude, contact, horario, precio],
     function(err, result) {
       done();
       if (err) {
