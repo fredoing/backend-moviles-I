@@ -316,6 +316,27 @@ app.get('/rest/:id', function(req, res, next) {
   });
 });
 
+app.get('deleterest/:rest', (req, res, next) => {
+  var rest = req.params.rest;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log("not able to connect" + err);
+      res.status(400).send(err);
+    }
+    client.query('CALL deleterest($1)', [rest], function(err, result) {
+      done();
+      if (err) {
+        console.log(err);
+        var error = {"borrado":false}
+        res.status(200).send(error);
+      }
+      if (result!=null) {
+        res.status(200).send({"borrado":true});
+      }
+    });
+  });
+});
+
 var server = app.listen(PORT, function () {
     console.log("app running on port.", server.address().port);
 });
