@@ -186,7 +186,7 @@ app.get('/newrest/:nombre/:lat/:lon/:contact/:horario/:precio', function(req, re
 });
 
 app.get('/modifyrest/:id/:nombre/:lat/:lon/:contact/:horario/:precio', function(req, res, next) {
-  var idrest = req.parms.id;
+  var idrest = req.params.id;
   var name = req.params.nombre;
   var latitude = req.params.lat;
   var longitude = req.params.lon;
