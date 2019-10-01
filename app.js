@@ -316,7 +316,7 @@ app.get('/rest/:id', function(req, res, next) {
   });
 });
 
-app.get('deleterest/:rest', (req, res, next) => {
+app.get('/deleterest/:rest', (req, res, next) => {
   var rest = req.params.rest;
   pool.connect(function(err, client, done) {
     if (err) {
