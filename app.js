@@ -3,14 +3,15 @@ var pg = require("pg");
 var app = express();
 var nodemailer = require('nodemailer');
 
-var smtpTransport = nodemailer.createTransport("SMTP",{
-host: "mail.smtp2go.com",
-port: 2525, // 8025, 587 and 25 can also be used.
-auth: {
-user: "restauranteslocos@moviles.com",
-pass: "ejluYmFtN25hYW0w"
-}
-});
+var transporter = nodemailer.createTransport({
+            host: 'mail.stmp2go.com',
+            port: 2525,
+            secure: true,
+            auth: {
+                user: 'restauranteslocos@moviles.com',
+                pass: 'ejluYmFtN25hYW0w'
+            }
+        });
 
 var config = {
   host:'ec2-184-73-169-163.compute-1.amazonaws.com',
@@ -386,24 +387,22 @@ app.get('/deleterest/:rest', (req, res, next) => {
 app.get('/recupera/:mail', (req, res, next) => {
   var mail = req.params.mail;
   var msg = 'Para cambiar su contrasena ingrese en el siguiente link www.proyectofredoyandy.online/recover/'+mail;
+  var mailOptions = {
+    from: 'restauranteslocos@moviles.com',
+    to: mail,
+    subject: 'Recuperar contrasena',
+    text: msg
+  };
 
-
-  smtpTransport.sendMail({
-  from: "restauranteslocos@moviles.com",
-  to: mail,
-  subject: "Recuperar contrasena",
-  text: msg
-  }, function(error, response){
-  if(error){
-  console.log(error);
-  var error = [{"enviado":false}];
-  res.status(200).send(error);
-  }else{
-  console.log("Message sent: " + response.message);
-  res.status(200).send([{"enviado":true}]);
-  }
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+      var error = [{"enviado":false}];
+      res.status(200).send(error);
+    } else {
+      res.status(200).send([{"enviado":true}]);
+    }
   });
-
 });
 
 app.get('/cambia/:passwd/:mail', (req, res, next) => {
