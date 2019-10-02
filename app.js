@@ -4,9 +4,8 @@ var app = express();
 var nodemailer = require('nodemailer');
 
 var transporter = nodemailer.createTransport({
-            host: 'mail.stmp2go.com',
-            port: 2525,
-            secure: true,
+            host: 'mail.smtp2go.com',
+            port: 8025,
             auth: {
                 user: 'restauranteslocos@moviles.com',
                 pass: 'ejluYmFtN25hYW0w'
