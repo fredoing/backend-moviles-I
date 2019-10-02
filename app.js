@@ -394,7 +394,7 @@ app.get('/recupera/:mail', (req, res, next) => {
 
   transporter.sendMail(mailOptions, function(error, info){
     if (error) {
-      console.log(err);
+      console.log(error);
       var error = [{"enviado":false}];
       res.status(200).send(error);
     } else {
