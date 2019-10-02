@@ -3,13 +3,15 @@ var pg = require("pg");
 var app = express();
 var nodemailer = require('nodemailer');
 
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'willyelpez@gmail.com',
-    pass: 'megustaelagua'
-  }
-});
+let transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: 'willyelpez@gmail.com',
+                pass: 'megustaelagua'
+            }
+        });
 
 var config = {
   host:'ec2-184-73-169-163.compute-1.amazonaws.com',
