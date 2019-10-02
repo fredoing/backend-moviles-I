@@ -161,7 +161,13 @@ app.get('/rests/:dist/:lat/:lon', function(req, res, next) {
         res.status(200).send(error);
       }
       if (result!=null) {
-        res.status(200).send(result.rows);
+        var obj = result.rows;
+        obj.forEach((item, index)=> {
+          if (item.calificacion == null) {
+            item.calificacion = 0;
+          }
+        });
+        res.status(200).send(obj);
       }
     });
   });
