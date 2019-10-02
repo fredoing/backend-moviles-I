@@ -195,7 +195,7 @@ app.get('/newrest/:nombre/:lat/:lon/:contact/:horario/:precio/:tipo', function(r
   });
 });
 
-app.get('/modifyrest/:id/:nombre/:lat/:lon/:contact/:horario/:precio', function(req, res, next) {
+app.get('/modifyrest/:id/:nombre/:lat/:lon/:contact/:horario/:precio/:tipo', function(req, res, next) {
   var idrest = req.params.id;
   var name = req.params.nombre;
   var latitude = req.params.lat;
@@ -203,12 +203,13 @@ app.get('/modifyrest/:id/:nombre/:lat/:lon/:contact/:horario/:precio', function(
   var contact = req.params.contact;
   var horario = req.params.horario;
   var precio = req.params.precio;
+  var tipo = req.params.tipo;
   pool.connect(function(err, client, done) {
     if (err) {
       console.log("not able to connect" + err);
       res.status(400).send(err);
     }
-    client.query('CALL updaterestaurante($1,$2,$3,$4,$5,$6,$7)', [idrest, name, latitude, longitude, contact, horario, precio],
+    client.query('CALL updaterestaurante($1,$2,$3,$4,$5,$6,$7,$8)', [idrest, name, latitude, longitude, contact, horario, precio, tipo],
     function(err, result) {
       done();
       if (err) {
