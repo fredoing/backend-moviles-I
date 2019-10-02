@@ -158,19 +158,20 @@ app.get('/rests/:dist/:lat/:lon', function(req, res, next) {
   });
 });
 
-app.get('/newrest/:nombre/:lat/:lon/:contact/:horario/:precio', function(req, res, next) {
+app.get('/newrest/:nombre/:lat/:lon/:contact/:horario/:precio/:tipo', function(req, res, next) {
   var name = req.params.nombre;
   var latitude = req.params.lat;
   var longitude = req.params.lon;
   var contact = req.params.contact;
   var horario = req.params.horario;
   var precio = req.params.precio;
+  var tipo = req.params.tipo;
   pool.connect(function(err, client, done) {
     if (err) {
       console.log("not able to connect" + err);
       res.status(400).send(err);
     }
-    client.query('CALL nuevorestaurante($1,$2,$3,$4,$5,$6)', [name, latitude, longitude, contact, horario, precio],
+    client.query('CALL nuevorestaurante($1,$2,$3,$4,$5,$6,$7)', [name, latitude, longitude, contact, horario, precio, tipo],
     function(err, result) {
       done();
       if (err) {
