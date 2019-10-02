@@ -4,12 +4,12 @@ var app = express();
 var nodemailer = require('nodemailer');
 
 let transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
+            host: 'mail.stmp2go.com',
+            port: 80,
             secure: true,
             auth: {
-                user: 'willyelpez@gmail.com',
-                pass: 'megustaelagua'
+                user: 'restauranteslocos@moviles.com',
+                pass: 'ejluYmFtN25hYW0w'
             }
         });
 
@@ -388,7 +388,7 @@ app.get('/recupera/:mail', (req, res, next) => {
   var mail = req.params.mail;
   var msg = 'Para cambiar su contrasena ingrese en el siguiente link www.proyectofredoyandy.online/recover/'+mail;
   var mailOptions = {
-    from: 'willyelpez@gmail.com',
+    from: 'restauranteslocos@moviles.com',
     to: mail,
     subject: 'Recuperar contrasena',
     text: msg
