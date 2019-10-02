@@ -1,6 +1,15 @@
 var express = require("express");
 var pg = require("pg");
 var app = express();
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'willyelpez@gmail.com',
+    pass: 'megustaelagua'
+  }
+});
 
 var config = {
   host:'ec2-184-73-169-163.compute-1.amazonaws.com',
@@ -353,6 +362,49 @@ app.get('/deleterest/:rest', (req, res, next) => {
       res.status(400).send(err);
     }
     client.query('CALL deleterest($1)', [rest], function(err, result) {
+      done();
+      if (err) {
+        console.log(err);
+        var error = {"borrado":false}
+        res.status(200).send(error);
+      }
+      if (result!=null) {
+        res.status(200).send({"borrado":true});
+      }
+    });
+  });
+});
+
+app.get('/recupera/:mail', (req, res, next) => {
+  var mail = req.params.mail;
+  var msg = 'Para cambiar su contrasena ingrese en el siguiente link www.proyectofredoyandy.online/recover/'+mail;
+  var mailOptions = {
+    from: 'willyelpez@gmail.com',
+    to: mail,
+    subject: 'Recuperar contrasena',
+    text: msg
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(err);
+      var error = {"enviado":false}
+      res.status(200).send(error);
+    } else {
+      res.status(200).send({"enviado":true});
+    }
+  });
+});
+
+app.get('/cambia/:passwd/:mail', (req, res, next) => {
+  var pass = req.params.passwd;
+  var mail = req.params.mail;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log("not able to connect" + err);
+      res.status(400).send(err);
+    }
+    client.query('CALL cambiapassword($1,$2)', [pass, mail], function(err, result) {
       done();
       if (err) {
         console.log(err);
