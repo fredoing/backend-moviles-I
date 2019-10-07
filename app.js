@@ -438,11 +438,11 @@ app.get('/addimg/:id/:dir', (req, res, next) =>{
       done();
       if (err) {
         console.log(err);
-        var error = {"borrado":false}
+        var error = {"insertado":false}
         res.status(200).send(error);
       }
       if (result!=null) {
-        res.status(200).send({"borrado":true});
+        res.status(200).send({"insertado":true});
       }
     });
   });
@@ -463,7 +463,7 @@ app.get('/getimgs/:id', (req, res, next) =>{
         res.status(200).send(error);
       }
       if (result!=null) {
-        res.status(200).send({"borrado":true});
+        res.status(200).send(result.rows);
       }
     });
   });
