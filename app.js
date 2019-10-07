@@ -426,6 +426,49 @@ app.get('/cambia/:passwd/:mail', (req, res, next) => {
   });
 });
 
+app.get('/addimg/:id/:dir', (req, res, next) =>{
+  var id = req.params.id;
+  var dir = req.params.dir;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log("not able to connect" + err);
+      res.status(400).send(err);
+    }
+    client.query('CALL addimage($1,$2)', [id, dir], function(err, result) {
+      done();
+      if (err) {
+        console.log(err);
+        var error = {"borrado":false}
+        res.status(200).send(error);
+      }
+      if (result!=null) {
+        res.status(200).send({"borrado":true});
+      }
+    });
+  });
+});
+
+app.get('/getimgs/:id', (req, res, next) =>{
+  var id = req.params.id;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log("not able to connect" + err);
+      res.status(400).send(err);
+    }
+    client.query('SELECT * FROM getimages($1)', [id], function(err, result) {
+      done();
+      if (err) {
+        console.log(err);
+        var error = {"borrado":false}
+        res.status(200).send(error);
+      }
+      if (result!=null) {
+        res.status(200).send({"borrado":true});
+      }
+    });
+  });
+});
+
 var server = app.listen(PORT, function () {
     console.log("app running on port.", server.address().port);
 });
