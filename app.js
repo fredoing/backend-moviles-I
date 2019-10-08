@@ -495,6 +495,27 @@ app.get('/getimgs/:id', (req, res, next) =>{
   });
 });
 
+app.get('/getrestcal/:id', (req, res, next) =>{
+  var id = req.params.id;
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log("not able to connect" + err);
+      res.status(400).send(err);
+    }
+    client.query('SELECT * FROM getrestcal($1)', [id], function(err, result) {
+      done();
+      if (err) {
+        console.log(err);
+        var error = {"borrado":false}
+        res.status(200).send(error);
+      }
+      if (result!=null) {
+        res.status(200).send(result.rows);
+      }
+    });
+  });
+});
+
 var server = app.listen(PORT, function () {
     console.log("app running on port.", server.address().port);
 });
