@@ -174,6 +174,32 @@ app.get('/rests/:dist/:lat/:lon', function(req, res, next) {
   });
 });
 
+app.get('/allrests', function(req, res, next) {
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log("not able to connect" + err);
+      res.status(400).send(err);
+    }
+    client.query('SELECT * FROM getallrestaurantes()', function(err, result) {
+      done();
+      if (err) {
+        console.log(err);
+        var error = [{"error":"some error"}]
+        res.status(200).send(error);
+      }
+      if (result!=null) {
+        var obj = result.rows;
+        obj.forEach((item, index)=> {
+          if (item.calificacion == null) {
+            item.calificacion = 0;
+          }
+        });
+        res.status(200).send(obj);
+      }
+    });
+  });
+});
+
 app.get('/newrest/:nombre/:lat/:lon/:contact/:horario/:precio/:tipo', function(req, res, next) {
   var name = req.params.nombre;
   var latitude = req.params.lat;
